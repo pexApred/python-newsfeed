@@ -11,7 +11,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String(50), nullable=False)
     email = Column(String(50), nullable=False, unique=True)
-    password = Column(String(100), nullable=False)
+    password = Column(String(150), nullable=False)
 
     # similar to the @bp.routes decorator, this decorator is used to validate the email address
     @validates('email')
