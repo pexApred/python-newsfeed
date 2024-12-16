@@ -1,16 +1,17 @@
+
 # Use root/example as user/password credentials
 version: '3.1'
 
 services:
 
-  db:
-    image: mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: qwerty
-      MYSQL_DATABASE: newsfeed
-    ports:
-      - "33066:3306"
+  # db:
+  #   image: mysql
+  #   restart: always
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: qwerty
+  #     MYSQL_DATABASE: newsfeed
+  #   ports:
+  #     - "33066:3306"
 
   postgres:
     image: postgres
@@ -18,8 +19,6 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: qwerty
-      POSTGRES_DB: newsfeed
+      POSTGRES_DB: python_news_db
     ports:
       - "54322:5432"
-
-    # (this is just an example, not intended to be a production configuration)
