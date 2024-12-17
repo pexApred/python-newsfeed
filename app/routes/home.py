@@ -31,5 +31,3 @@ def single(id):
         'single-post.html',
         post = post
     )
-
-    return render_template('single-post.html')
