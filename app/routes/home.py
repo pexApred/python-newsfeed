@@ -1,11 +1,20 @@
 from flask import Blueprint, render_template
+from app.models import Post
+from app.db import get_db
 # Blueprint consolidates routes onto a single object (bp). Corresponds to using Router middleware in Express.js
 
 bp = Blueprint('home', __name__, url_prefix='/')
 
 @bp.route('/')
 def index():
-    return render_template('homepage.html')
+    # get all posts from the database
+    db = get_db()
+    posts = db.query(Post).order_by(Post.created_at.desc()).all()
+
+    return render_template(
+        'homepage.html',
+        posts=posts
+    )
 
 @bp.route('/login')
 def login():
