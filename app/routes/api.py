@@ -1,5 +1,5 @@
 import sys
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from app.models import User
 from app.db import get_db
 
@@ -27,4 +27,9 @@ def signup():
         db.rollback()
         return jsonify(message = 'Signup failed'), 500
 
+    # you can create sessions in Flask only if you've defined a secret key. Fortunately, the following code in app/__init__.py does just that: app.config.from_mapping(SECRET_KEY='super_secret_key'). In a production environment, you should change this key to something that's harder to guess.
+
+    session.clear()
+    session['user_id'] = newUser.id
+    session['loggedIn'] = True
     return jsonify(id = newUser.id)
