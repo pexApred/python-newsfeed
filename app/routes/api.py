@@ -4,7 +4,7 @@ from app.models import User, Post, Comment, Vote
 from app.db import get_db
 
 bp = Blueprint('api', __name__, url_prefix='/api')
-
+# connect to the database (.routes)
 @bp.route('/users', methods=['POST'])
 def signup():
     data = request.get_json()
@@ -61,7 +61,7 @@ def login():
     
     return jsonify(id = user.id)
 
-# connect to the database
+
 @bp.route('/comments', methods=['POST'])
 def comment():
     # Create a new model instance using the request data.
@@ -81,8 +81,32 @@ def comment():
         db.commit()
     except:
         print(sys.exc_info()[0])
+        # Rollback the session if an error occurred and return a 500 status code.
         db.rollback()
         # Return a status of 500 if it failed or the new ID if it succeeded.
         return jsonify(message = 'Comment failed'), 500
     
     return jsonify(id = newComment.id)
+
+@bp.route('/posts/upvote', methods=['PUT'])
+def upvote():
+    data = request.get_json()
+    db = get_db()
+
+    try:
+        # create a new vote with incoming id and session id
+        newVote = Vote(
+            post_id = data['post_id'],
+            user_id = session.get('user_id')
+        )
+
+        db.add(newVote)
+        db.commit()
+    except:
+        print(sys.exc_info()[0])
+
+        db.rollback()
+        return jsonify(message = 'Upvote failed'), 500
+    
+    return '', 204
+
