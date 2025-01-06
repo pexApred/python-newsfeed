@@ -61,7 +61,6 @@ def login():
     
     return jsonify(id = user.id)
 
-
 @bp.route('/comments', methods=['POST'])
 def comment():
     # Create a new model instance using the request data.
